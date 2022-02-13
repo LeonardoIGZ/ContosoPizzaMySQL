@@ -9,7 +9,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add the PizzaContext
-builder.Services.AddSqlite<PizzaContext>("Data Source=ContosoPizza.db");    
+//builder.Services.AddSqlite<PizzaContext>("Data Source=ContosoPizza.db"); 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<PizzaContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});   
 
 // Add the PromotionsContext
 

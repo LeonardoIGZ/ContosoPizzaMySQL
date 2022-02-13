@@ -15,19 +15,19 @@ public class PizzaService
 
     public IEnumerable<Pizza> GetAll()
     {
-       return _context.Pizzas
-        .AsNoTracking()
-        .ToList();
+        return _context.Pizzas
+         .AsNoTracking()
+         .ToList();
 
     }
 
     public Pizza? GetById(int id)
     {
-         return _context.Pizzas
-            .Include(p => p.Toppings)
-            .Include(p => p.Sauce)
-            .AsNoTracking()
-            .SingleOrDefault(p => p.Id == id);
+        return _context.Pizzas
+           .Include(p => p.Toppings)
+           .Include(p => p.Sauce)
+           .AsNoTracking()
+           .SingleOrDefault(p => p.Id == id);
 
     }
 
@@ -49,7 +49,7 @@ public class PizzaService
             throw new NullReferenceException("Pizza or topping does not exist");
         }
 
-        if(pizzaToUpdate.Toppings is null)
+        if (pizzaToUpdate.Toppings is null)
         {
             pizzaToUpdate.Toppings = new List<Topping>();
         }
@@ -63,25 +63,26 @@ public class PizzaService
 
     public void UpdateSauce(int PizzaId, int SauceId)
     {
-            var pizzaToUpdate = _context.Pizzas.Find(PizzaId);
-            var sauceToUpdate = _context.Sauces.Find(SauceId);
+        var pizzaToUpdate = _context.Pizzas.Find(PizzaId);
+        var sauceToUpdate = _context.Sauces.Find(SauceId);
 
-            if (pizzaToUpdate is null || sauceToUpdate is null)
-            {
-                throw new NullReferenceException("Pizza or sauce         does not exist");
-            }
+        if (pizzaToUpdate is null || sauceToUpdate is null)
+        {
+            throw new NullReferenceException("Pizza or sauce         does not exist");
+        }
 
-            pizzaToUpdate.Sauce = sauceToUpdate;
+        pizzaToUpdate.Sauce = sauceToUpdate;
 
-            _context.SaveChanges();
+        _context.SaveChanges();
 
     }
 
     public void DeleteById(int id)
     {
-         var pizzaDel = _context.Pizzas.Find(id);
-        if(pizzaDel is null){
-            throw new NullReferenceException("Pizza does not exist");       
+        var pizzaDel = _context.Pizzas.Find(id);
+        if (pizzaDel is null)
+        {
+            throw new NullReferenceException("Pizza does not exist");
         }
         _context.Pizzas.Remove(pizzaDel);
         _context.SaveChanges();
